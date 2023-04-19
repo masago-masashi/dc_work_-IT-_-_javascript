@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>WORK06</title>
+    </head>
+    <body>
+        <script> 
+        //課題⓵
+            const rdmA = Math.floor(Math.random()*100+1);
+            if(rdmA %3==0 &&rdmA %6 == 0){
+                document.write(`3と6の倍数です`);
+            }
+            else if (rdmA %3==0 &&rdmA %6 != 0){
+                document.write(`3の倍数で、6の倍数ではありません`);
+            }
+            else if (rdmA %3!=0 ){
+                document.write(`倍数ではありません`);
+            }
+            //課題⓶
+            const random1 = Math.floor(Math.random()*9+1);
+            const random2 = Math.floor(Math.random()*9+1);
+            document.write(`random1=${random1},random2=${random2}です。`);
+            if( random1 > random2){
+                document.write(`${random1}の方が大きいです。`);
+            }
+            else if( random1 < random2){
+                document.write(`${random2}の方が大きいです。`);
+            }
+            else{
+                document.write(`2つは同じ数です。`);
+            }
+        </script> 
+    </body>
+</html>
