@@ -17,6 +17,9 @@
             else if (rdmA %3!=0 ){
                 document.write(`倍数ではありません`);
             }
+        </script>
+        <br>
+        <script>
             //課題⓶
             const random1 = Math.floor(Math.random()*9+1);
             const random2 = Math.floor(Math.random()*9+1);
@@ -29,6 +32,16 @@
             }
             else{
                 document.write(`2つは同じ数です。`);
+            }
+            
+            if(random1 %3==0 &&random2 %3 == 0){
+                document.write(`2つの数字のうち、3の倍数となる数字は2つです。`);
+            }
+            else if (random1 %3!=0 &&random2 %3 != 0){
+                document.write(`2つの数字のうち、3の倍数となる数はありません。`);
+            }
+            else{
+                document.write(`2つの数字のうち、3の倍数となる数字は1つです。`);
             }
         </script> 
     </body>
