@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>WORK12</title>
+</head>
+<body>
+    <script> 
+    let class01=[
+        {"name":"oda","point":Math.floor(Math.random() * 100)+1 },
+        {"name":"toyotomi","point":Math.floor(Math.random() * 100)+1 },
+        {"name":"tokugawa","point":Math.floor(Math.random() * 100)+1 },
+        {"name":"takeda","point":Math.floor(Math.random() * 100)+1 }];
+    let class02=[
+        {"name":"minamoto","point":Math.floor(Math.random() * 100)+1 },
+        {"name":"taira","point":Math.floor(Math.random() * 100)+1 },
+        {"name":"sugawara","point":Math.floor(Math.random() * 100)+1 },
+        {"name":"fujiwara","point":Math.floor(Math.random() * 100)+1 }];
+    document.write(`${class01[0]["name"]}:${class01[0]["point"]}点`);
+    document.write(`${class02[2]["name"]}:${class02[2]["point"]}点`);
+    if(class01[0]["point"]>class02[2]["point"]){
+        document.write(`${class01[0]["name"]}の点数の方が高い`);
+    }
+    else{
+        document.write(`${class02[2]["name"]}の点数の方が高い`);
+    }
+    let avg01 =(class01[0]["point"]+class01[1]["point"]+class01[2]["point"]+class01[3]["point"])/4;
+    let avg02 =(class02[0]["point"]+class02[1]["point"]+class02[2]["point"]+class02[3]["point"])/4;
+    document.write(`class01の平均は${avg01}点`);
+    document.write(`class02の平均は${avg02}点`);
+    </script> 
+</body>
+</html>
