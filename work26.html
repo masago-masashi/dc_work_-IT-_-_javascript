@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>WORK26</title>
+</head>
+<body>
+    <div class="time">
+        00:00.00    
+    </div>
+    <input type="button" id="start" value="Start">
+    <input type="button" id="stop" value="Stop">
+    <input type="button" id="reset" value="Reset">
+    <script class="stopwatch"> 
+    //0抜き用
+    function zeroPadding(NUM, LEN){
+	return ( Array(LEN).join('0') + NUM ).slice( -LEN );
+
+    }   
+    let milisec = 0;
+    let sec =0;
+    let min = 0;
+    
+    var holdmin =0;
+    var holdsec =0;
+    var holdmilisec= 0;
+    let time = document.getElementById("time");
+    let startbtn = document.getElementById("start");
+    let stopbtn = document.getElementById("stop");
+    let resetbtn= document.getElementById("reset");
+    
+    function count_start(){
+            
+            timer = setInterval("count_up()",10); 
+        }
+        
+    function count_up(){
+        
+    
+            const time = document.getElementById('time');
+            	// 表示されているテキストを取得
+            let milisecond =zeroPadding(milisec,2);
+            let second =zeroPadding(sec,2);
+            let minute =zeroPadding(min,2);
+            milisec++;
+            if(milisec == 100){
+                milisec=0;
+                sec++;
+            }
+            if(sec ==60){
+                sec=0;
+                min++;
+            }
+            //time部分の書き換え
+            time.textContent = `${minute}:${second}.${milisecond}`
+        }
+    function count_stop(){
+        //count_upを止めてタイムを保持
+
+    }
+    function count_reset(){
+        
+    let milisec = 0;
+    let sec =0;
+    let min = 0;
+    var holdmin =0;
+    var holdsec =0;
+    var holdmilisec= 0;
+
+    }
+        startbtn.addEventListener("click", count_start);
+        stopbtn.addEventListener("click",count_stop);
+        resetbtn.addEventListener("click",count_reset);
+    </script> 
+</body>
+</html>
