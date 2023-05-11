@@ -20,7 +20,7 @@
     <script class="stopwatch"> 
     //0抜き用
     function zeroPadding(NUM, LEN){
-	return ( Array(LEN).join('0') + NUM ).slice( -LEN );
+	    return ( Array(LEN).join('0') + NUM ).slice( -LEN );
 
     }   
     //時間の初期設定
@@ -37,10 +37,10 @@
     //各ボタンのステータスによって表示を変更する
     function button_status(){
         if(startbtn.disabled ==true){
-        startbtn.style.opacity=0.5;
+            startbtn.style.opacity=0.5;
         }
         else if(startbtn.disabled ==false){
-        startbtn.style.opacity=1;
+            startbtn.style.opacity=1;
         }
 
         if(stopbtn.disabled ==true){
