@@ -68,7 +68,7 @@
     const kyokumei =document.getElementById("kyokumei")
     let piano_id = document.getElementsByClassName("piano-key");
     let onkai =document.getElementById("hyoujiarea");
-    let piano =document.getElementById("piano-origin");
+    
     let autoplay =document.getElementById("auto-play");
     var time ; 
     function reset(){
@@ -79,36 +79,43 @@
     function piano_sound(piano_id,time){
         switch(piano_id){
             case 0:
+                reset();
                 onkai.textContent ="ド";
                 timbre.src="https://maou.audio/se_inst_piano2_1do/"
                 //ピアノ2-6ド _ フリー効果音無料ダウンロード 魔王魂
                 break;
             case 1:
+                reset();
                 onkai.textContent ="レ";
                 timbre.src="https://maou.audio/se_inst_piano2_2re/"
                 //ピアノ2-6レ _ フリー効果音無料ダウンロード 魔王魂
                 break;
             case 2:
+                reset();
                 onkai.textContent ="ミ";
                 timbre.src="https://maou.audio/se_inst_piano2_3mi/"
                 //ピアノ2-6ミ _ フリー効果音無料ダウンロード 魔王魂
                 break;
             case 3:
+                reset();
                 onkai.textContent ="ファ";
                 timbre.src="https://maou.audio/se_inst_piano2_4fa/"
                 //ピアノ2-6ファ _ フリー効果音無料ダウンロード 魔王魂
                 break;
             case 4:
+                reset();
                 onkai.textContent ="ソ";
                 timbre.src="https://maou.audio/se_inst_piano2_5so/"
                 //ピアノ2-6ソ _ フリー効果音無料ダウンロード 魔王魂
                 break;
             case 5:
+                reset();
                 onkai.textContent ="ラ";
                 timbre.src="https://maou.audio/se_inst_piano2_6ra/"
                 //ピアノ2-6ラ _ フリー効果音無料ダウンロード 魔王魂
                 break;
             case 6:
+                reset();
                 onkai.textContent ="シ";
                 timbre,src="https://maou.audio/se_inst_piano2_7si/"
                 //ピアノ2-6シ _ フリー効果音無料ダウンロード 魔王魂
