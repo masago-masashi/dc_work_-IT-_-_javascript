@@ -28,12 +28,14 @@
             text-align: center;
             border: 1px black solid;
             width: 70px;
+            cursor: pointer;
         }
         .auto-playbutton{
             margin: 0 auto;
             background-color: blueviolet;
             width: 200px;
             color: white;
+            cursor: pointer;
         }
     </style>
 <head>
@@ -61,16 +63,18 @@
             <div class="piano-key" id="5">ラ</div>
             <div class="piano-key" id="6">シ</div>
         </div>
-        <div class="auto-playbutton"><p id="auto-play">自動演奏</p></div>
+        <div class="auto-playbutton" id="auto-playbutton"><p id="auto-play">自動演奏</p></div>
     </div>
     <script> 
     var timbre =new Audio; //音色
     const kyokumei =document.getElementById("kyokumei")
     let piano_id = document.getElementsByClassName("piano-key");
     let onkai =document.getElementById("hyoujiarea");
-    
+    var autoplaybutton = getElementById("auto-playbutton");
+    autoplaybutton.onclick =auto_play();
     let autoplay =document.getElementById("auto-play");
     var time ; 
+    auto_play_stop.disable =true;
     function reset(){
         kyokumei.textContent ="　";
         onkai.textContent ="　";
@@ -79,46 +83,49 @@
     function piano_sound(piano_id,time){
         switch(piano_id){
             case 0:
-                reset();
+                
                 onkai.textContent ="ド";
                 timbre.src="https://maou.audio/se_inst_piano2_1do/"
                 //ピアノ2-6ド _ フリー効果音無料ダウンロード 魔王魂
                 break;
             case 1:
-                reset();
+                
                 onkai.textContent ="レ";
                 timbre.src="https://maou.audio/se_inst_piano2_2re/"
                 //ピアノ2-6レ _ フリー効果音無料ダウンロード 魔王魂
                 break;
             case 2:
-                reset();
+                
                 onkai.textContent ="ミ";
                 timbre.src="https://maou.audio/se_inst_piano2_3mi/"
                 //ピアノ2-6ミ _ フリー効果音無料ダウンロード 魔王魂
                 break;
             case 3:
-                reset();
+                
                 onkai.textContent ="ファ";
                 timbre.src="https://maou.audio/se_inst_piano2_4fa/"
                 //ピアノ2-6ファ _ フリー効果音無料ダウンロード 魔王魂
                 break;
             case 4:
-                reset();
+                
                 onkai.textContent ="ソ";
                 timbre.src="https://maou.audio/se_inst_piano2_5so/"
                 //ピアノ2-6ソ _ フリー効果音無料ダウンロード 魔王魂
                 break;
             case 5:
-                reset();
+                
                 onkai.textContent ="ラ";
                 timbre.src="https://maou.audio/se_inst_piano2_6ra/"
                 //ピアノ2-6ラ _ フリー効果音無料ダウンロード 魔王魂
                 break;
             case 6:
-                reset();
+                
                 onkai.textContent ="シ";
                 timbre,src="https://maou.audio/se_inst_piano2_7si/"
                 //ピアノ2-6シ _ フリー効果音無料ダウンロード 魔王魂
+                break;
+            default:
+                onkai.textContent ="　";
                 break;
         }
         setTimeout(reset(),1000);
@@ -128,25 +135,38 @@
 
     function manual_play(piano_id){
         //手動演奏
-        
+        setTimeout(piano_sound(piano_id,1000),1000);
         
     }
-    .addEventListener("click", manual_play);
+    piano_id["id"].addEventListener("click", manual_play);
+    //自動演奏
     function auto_play(){
         manual_play.disable =true;
+        auto_play_stop.disable =false;
+        autoplaybutton.onclick =auto_play_stop();
+        autoplay.textContent("演奏中止");
         let select= Math.floor(Math.random()*2);
         switch(select){
-            case 1:
+            case 0:
                 //きらきら星
                 kyokumei.textcontent="きらきら星";
                 break;
-            case 0:
+            case 1:
                 //チューリップ
                 kyokumei.textcontent="チューリップの歌";
                 break;
         }
     }
-    autoplay.addEventListener("click", auto_play);
+    //自動演奏を止める関数
+    function auto_play_stop(){
+        clearInterval(auto_play);
+        auto-play.textContent("自動演奏");
+        reset();
+        manual_play.disable =false;
+        autoplaybutton.onclick =auto_play();
+    }
+    
+    
     </script> 
 </body>
 </html>
