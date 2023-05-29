@@ -80,6 +80,15 @@
                 {note: "シ", file: "sound/maou_se_inst_piano2_7si.mp3"},
                 {note: "　",file:"sound/muon.mp3"}
             ];
+        
+
+
+
+
+
+        //手動制御用
+        let audioTimer= null;
+        let resetTimer= null;
 
         let audio = new Audio();
         //表示を消す
@@ -88,7 +97,27 @@
             onkai.textContent ="　";
         } 
 
-        function playSound(index) {
+        //音を止める
+        function audioStop(){
+            audio.pause();
+            audio.currentTime = 0;
+            audioTimer =null;
+            resetTimer =null;
+        }
+        
+        
+        
+        
+
+
+        function playSound(index,time) {
+            if(audioTimer!=null&&resetTimer!=null){
+            clearTimeout(audioTimer);
+            clearTimeout(resetTimer);
+            }
+            audioTimer= setTimeout(audioStop,time);
+            resetTimer= setTimeout(reset,time);
+            
             const sound = sounds[index];
             audio.pause();
             audio.currentTime = 0;
@@ -97,26 +126,43 @@
             audio.play();
             
         }
-        //音を止める
-        function audioStop(){
-            audio.pause();
-            audio.currentTime = 0;
-        }
-        
-        function manual_play(){
-                
-        }
         
         
-        
-        
-            for (let i = 0; i <= 6; i++) {
+        for (let i = 0; i <= 6; i++) {
                 document.getElementById(i.toString()).addEventListener('click', function() {
-                    playSound(i);
-                });
-                setTimeout(audioStop(),1000);
-                setTimeout(reset,1000);
+                    playSound(i,1000);
+                    });
+                
             }
+
+        const autoPlay =document.getElementById("auto-playbutton")
+        
+        function auto_play(){
+            manual_play.disable =true;
+            auto_play_stop.disable =false;
+            autoplaybutton.onclick =auto_play_stop();
+            autoplay.textContent("演奏中止");
+            let select= Math.floor(Math.random()*2);
+            switch(select){
+                case 0:
+                    //きらきら星
+                    kyokumei.textcontent="きらきら星";
+                    break;
+                case 1:
+                    //チューリップ
+                    kyokumei.textcontent="チューリップの歌";
+                    break;
+                }
+            }
+        //自動演奏を止める関数
+        function auto_play_stop(){
+            clearInterval(auto_play);
+            auto-play.textContent("自動演奏");
+            reset();
+            manual_play.disable =false;
+            autoplaybutton.onclick =auto_play();
+        }
+        
         
         
             
