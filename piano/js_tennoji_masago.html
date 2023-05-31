@@ -93,7 +93,7 @@
         let audio = new Audio();
         //表示を消す
         function reset(){
-            kyokumei.textContent ="　";
+            
             onkai.textContent ="　";
         } 
 
@@ -109,14 +109,13 @@
         
         
 
-
+        //音を鳴らす　index=7で休符
         function playSound(index,time) {
             if(audioTimer!=null&&resetTimer!=null){
             clearTimeout(audioTimer);
             clearTimeout(resetTimer);
             }
-            audioTimer= setTimeout(audioStop,time);
-            resetTimer= setTimeout(reset,time);
+            
             
             const sound = sounds[index];
             audio.pause();
@@ -124,10 +123,11 @@
             audio = new Audio(sound.file);
             document.getElementById('onkai').textContent = sound.note;
             audio.play();
-            
+            audioTimer= setTimeout(audioStop,time);
+            resetTimer= setTimeout(reset,1000);
         }
         
-        
+        //手動操作
         for (let i = 0; i <= 6; i++) {
                 document.getElementById(i.toString()).addEventListener('click', function() {
                     playSound(i,1000);
@@ -137,6 +137,7 @@
 
         var autoPlaySwitch =document.getElementById("playbutton").addEventListener('click',autoPlay);
         autoPlay_stop.disable =true;
+        //自動演奏
         function autoPlay(){
             
             autoPlay_stop.disable =false;
@@ -160,15 +161,35 @@
                 }
                 
                 document.getElementById( "playbutton" ).value ="自動演奏";
-            autoPlay_stop();
+                kyokumei.textContent ="　";
+            
         }
         //きらきら星
         function twinkle(){
-            playSound(7,1000);
+            function twinkle1(){
+                playSound(0,500);//ド
+                
+                playSound(7,500);//休符
+                playSound(0,500);//ド
+                playSound(7,500);//休符
+                playSound(4,500);//ソ
+                playSound(7,500);//休符
+                playSound(4,500);//ソ
+                playSound(5,500);//ラ
+                playSound(5,500);//ラ
+                playSound(7,500);//休符
+                playSound(5,500);//ラ
+                playSound(7,500);//休符
+                playSound(4,2000);//ソ
+            }
+            twinkle1();
+            
         }
         //チューリップ
         function tulip(){
-            playSound(7,1000);
+            playSound(0,500);
+            playSound(1,500);
+            playSound(2,1000);
         }
 
         //自動演奏を止める関数
@@ -176,6 +197,7 @@
             
             document.getElementById( "playbutton" ).value ="自動演奏";
             reset();
+            
             autoPlaySwitch =document.getElementById("playbutton").addEventListener('click',autoPlay);
             autoPlay_stop.disable =true;
         }
