@@ -138,8 +138,8 @@
         var autoPlaySwitch =document.getElementById("playbutton").addEventListener('click',autoPlay);
         autoPlay_stop.disable =true;
         //自動演奏
-        function autoPlay(){
-            
+        async function autoPlay(){
+            var score;
             autoPlay_stop.disable =false;
             document.getElementById( "playbutton" ).value = "演奏中止"
             if(autoPlay_stop.disable!=true){
@@ -164,29 +164,27 @@
                 kyokumei.textContent ="　";
             
         }
-        //きらきら星
-        function twinkle(){
-            function twinkle1(){
-                playSound(0,500);//ド
-                
-                playSound(7,500);//休符
-                playSound(0,500);//ド
-                playSound(7,500);//休符
-                playSound(4,500);//ソ
-                playSound(7,500);//休符
-                playSound(4,500);//ソ
-                playSound(5,500);//ラ
-                playSound(5,500);//ラ
-                playSound(7,500);//休符
-                playSound(5,500);//ラ
-                playSound(7,500);//休符
-                playSound(4,2000);//ソ
+
+        async function autoScore(score){
+            
+            for await(x of score){
+                    setTimeout(playSound(x.note,x.playLength),x.playLength);
+                    
+                    
             }
+        }
+        //きらきら星
+        async function twinkle(){
+            function twinkle1(){
+                var twinkleNote1 =[{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500} ];
+                autoScore(twinkleNote1);
+                }
+            
             twinkle1();
             
         }
         //チューリップ
-        function tulip(){
+        async function tulip(){
             playSound(0,500);
             playSound(1,500);
             playSound(2,1000);
