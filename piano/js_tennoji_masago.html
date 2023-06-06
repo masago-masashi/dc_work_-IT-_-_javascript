@@ -66,6 +66,8 @@
             <div class="piano-key" id="5">ラ</div>
             <div class="piano-key" id="6">シ</div>
         </div>
+       
+        <br>
         <input type="button" class="autoPlaybutton" id="playbutton" value="自動演奏">
     </div>
     <script> 
@@ -126,20 +128,25 @@
             audioTimer= setTimeout(audioStop,time);
             resetTimer= setTimeout(reset,1000);
         }
-        
+        // 自動演奏が動作しているかどうかを表すフラグ
+        let isAutoPlaying = false;
         //手動操作
         for (let i = 0; i <= 6; i++) {
                 document.getElementById(i.toString()).addEventListener('click', function() {
-                    playSound(i,1000);
-                    });
+                    if (!isAutoPlaying) {
+                        playSound(i,1000);
+                    }
+                });
                 
             }
 
         var autoPlaySwitch =document.getElementById("playbutton").addEventListener('click',autoPlay);
         autoPlay_stop.disable =true;
+        
         //自動演奏
         async function autoPlay(){
             var score;
+            isAutoPlaying =true;
             autoPlay_stop.disable =false;
             document.getElementById( "playbutton" ).value = "演奏中止"
             if(autoPlay_stop.disable!=true){
@@ -162,9 +169,9 @@
                 
                 document.getElementById( "playbutton" ).value ="自動演奏";
                 kyokumei.textContent ="　";
-            
+                await autoPlay_stop();
         }
-
+        //自動演奏用音鳴らす関数
         async function autoScore(score){
             
             for await(x of score){
@@ -176,7 +183,7 @@
         //きらきら星
         async function twinkle(){
             function twinkle1(){
-                var twinkleNote1 =[{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500} ];
+                var twinkleNote1 =[{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4,playLength:500} ];
                 autoScore(twinkleNote1);
                 }
             
@@ -192,10 +199,10 @@
 
         //自動演奏を止める関数
         function autoPlay_stop(){
-            
+            isAutoPlaying =false;
             document.getElementById( "playbutton" ).value ="自動演奏";
             reset();
-            
+            kyokumei.textContent="　";
             autoPlaySwitch =document.getElementById("playbutton").addEventListener('click',autoPlay);
             autoPlay_stop.disable =true;
         }
