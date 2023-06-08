@@ -142,7 +142,7 @@
 
         var autoPlaySwitch =document.getElementById("playbutton").addEventListener('click',autoPlay);
         autoPlay_stop.disable =true;
-        
+        let cumulativeDelay =0;
         //自動演奏
         async function autoPlay(){
             var score;
@@ -175,19 +175,23 @@
         async function autoScore(score){
             
             for await(x of score){
-                    setTimeout(playSound(x.note,x.playLength),x.playLength);
-                    
-                    
+                  
+                setTimeout(() => playSound(x.note,x.playLength), cumulativeDelay);
+                cumulativeDelay += x.playLength;
+                
+                 
             }
+            //初期化
+            cumulativeDelay = 0 ;
         }
         //きらきら星
         async function twinkle(){
-            function twinkle1(){
+            async function twinkle1(){
                 var twinkleNote1 =[{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4,playLength:500} ];
-                autoScore(twinkleNote1);
+                await autoScore(twinkleNote1);
                 }
             
-            twinkle1();
+            await twinkle1();
             
         }
         //チューリップ
