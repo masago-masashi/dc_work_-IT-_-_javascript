@@ -4,7 +4,7 @@
     <style>
         .piano{
             width:500px;
-            margin: 0 auto;
+            
             text-align: center;
         }
     
@@ -133,7 +133,7 @@
         //手動操作
         for (let i = 0; i <= 6; i++) {
                 document.getElementById(i.toString()).addEventListener('click', function() {
-                    if (!isAutoPlaying) {
+                    if (isAutoPlaying!=true) {
                         playSound(i,1000);
                     }
                 });
@@ -142,7 +142,7 @@
 
         var autoPlaySwitch =document.getElementById("playbutton").addEventListener('click',autoPlay);
         autoPlay_stop.disable =true;
-        let cumulativeDelay =0;
+        
         //自動演奏
         async function autoPlay(){
             var score;
@@ -150,55 +150,108 @@
             autoPlay_stop.disable =false;
             document.getElementById( "playbutton" ).value = "演奏中止"
             if(autoPlay_stop.disable!=true){
-                autoPlaySwitch =document.getElementById("playbutton").addEventListener('click',autoPlay_stop)
+                autoPlaySwitch =document.getElementById("playbutton").addEventListener('click',autoPlay_stop);
             
                 }
             let select= Math.floor(Math.random()*2);
             switch(select){
                 case 0:
                     //きらきら星
-                    kyokumei.textContent="自動演奏中です：きらきら星";
+                    
                     twinkle();
+                    await autoPlay_stop();
                     break;
                 case 1:
                     //チューリップ
-                    kyokumei.textContent="自動演奏中です：チューリップの歌";
+                    
                     tulip();
+                    await autoPlay_stop();
                     break;
                 }
                 
-                document.getElementById( "playbutton" ).value ="自動演奏";
-                kyokumei.textContent ="　";
-                await autoPlay_stop();
+                
+                
+            
         }
+        
+        //自動演奏制御用
+        let cumulativeDelay =0;
+        let cumulativeScoreDelay =0;
         //自動演奏用音鳴らす関数
         async function autoScore(score){
-            
+            cumulativeScoreDelay =0;
             for await(x of score){
-                  
-                setTimeout(() => playSound(x.note,x.playLength), cumulativeDelay);
-                cumulativeDelay += x.playLength;
                 
-                 
+                let note=x.note;
+                let playLength=x.playLength;
+                
+                setTimeout(() => playSound(note,playLength), cumulativeDelay);
+                cumulativeDelay += playLength;
+                //setTimeout(() => playSound(x.note,x.playLength), cumulativeDelay);
+                //cumulativeDelay += x.playLength;
+                
+                
+        
             }
+            //なぜかここがないと音の処理が重なってしまう
+            cumulativeScoreDelay = cumulativeDelay;
+            return cumulativeScoreDelay;
             //初期化
             cumulativeDelay = 0 ;
         }
         //きらきら星
         async function twinkle(){
+            kyokumei.textContent="自動演奏中です：きらきら星";
+            
             async function twinkle1(){
-                var twinkleNote1 =[{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4,playLength:500} ];
+                var twinkleNote1 =[{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},
+                {note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:0, playLength:2000}];
                 await autoScore(twinkleNote1);
                 }
+            async function twinkle2(){
+                var twinkleNote2 =[{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:2000}];
+                
+                await autoScore(twinkleNote2);
+                }
+            await twinkle1();
+            
+            await twinkle2();
+            
+            await twinkle2();
             
             await twinkle1();
             
         }
         //チューリップ
         async function tulip(){
-            playSound(0,500);
-            playSound(1,500);
-            playSound(2,1000);
+
+            kyokumei.textContent="自動演奏中です：チューリップの歌";
+            
+            async function tulip1(){
+                var tulipNote1 =[{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000}];
+                await autoScore(tulipNote1);
+            }
+
+            async function tulip2(){
+                var tulipNote2 =[{note:4,playLength:500},{note:2,playLength:500},{note:1,playLength:500},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:500},{note:1,playLength:1000}];
+                await autoScore(tulipNote2);
+            }
+
+            async function tulip3(){
+                var tulipNote3 =[{note:4,playLength:500},{note:2,playLength:500},{note:1,playLength:500},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:500},{note:0,playLength:1000}];
+                await autoScore(tulipNote3);
+            }
+
+            async function tulip4(){
+                var tulipNote4 =[{note:4,playLength:250},{note:7,playLength:250},{note:4,playLength:250},{note:7,playLength:250},{note:2,playLength:250},{note:7,playLength:250},{note:4,playLength:250},{note:7,playLength:250},{note:5,playLength:250},{note:7,playLength:250},{note:5,playLength:250},{note:7,playLength:250},{note:4,playLength:1000},{note:2,playLength:250},{note:7,playLength:250},{note:2,playLength:250},{note:7,playLength:250},{note:1,playLength:250},{note:7,playLength:250},{note:1,playLength:250},{note:7,playLength:250},{note:0,playLength:4000}];
+                await autoScore(tulipNote4);
+            }
+            await tulip1();
+            await tulip2();
+            await tulip1();
+            await tulip3();
+            await tulip4();
+
         }
 
         //自動演奏を止める関数
