@@ -159,18 +159,17 @@
                     //きらきら星
                     
                     twinkle();
-                    await autoPlay_stop();
+                    
                     break;
                 case 1:
                     //チューリップ
                     
                     tulip();
-                    await autoPlay_stop();
+                    
                     break;
-                }
+            }
                 
-                
-                
+            // await autoPlay_stop();
             
         }
         
@@ -193,7 +192,7 @@
                 
         
             }
-            //なぜかここがないと音の処理が重なってしまう
+            //ここがないと音の処理が重なってしまう
             cumulativeScoreDelay = cumulativeDelay;
             return cumulativeScoreDelay;
             //初期化
@@ -201,18 +200,18 @@
         }
         //きらきら星
         async function twinkle(){
-            kyokumei.textContent="自動演奏中です：きらきら星";
+            kyokumei.textContent="自動演奏中です：きらきら";
             
             async function twinkle1(){
                 var twinkleNote1 =[{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},
                 {note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:0, playLength:2000}];
                 await autoScore(twinkleNote1);
-                }
+            }
             async function twinkle2(){
                 var twinkleNote2 =[{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:2000}];
                 
                 await autoScore(twinkleNote2);
-                }
+            }
             await twinkle1();
             
             await twinkle2();
@@ -220,6 +219,8 @@
             await twinkle2();
             
             await twinkle1();
+            
+            // kyokumei.textContent="　";
             
         }
         //チューリップ
@@ -252,10 +253,15 @@
             await tulip3();
             await tulip4();
 
+            await autoPlay_stop();
+            
+
         }
+        // kyokumei.textContent="テスト";
 
         //自動演奏を止める関数
-        function autoPlay_stop(){
+        async function autoPlay_stop(){
+            
             isAutoPlaying =false;
             document.getElementById( "playbutton" ).value ="自動演奏";
             reset();
