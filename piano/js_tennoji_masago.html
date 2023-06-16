@@ -66,12 +66,15 @@
             <div class="piano-key" id="5">ラ</div>
             <div class="piano-key" id="6">シ</div>
         </div>
-       
+        <!- 手動演奏の時間を入れる部分。 何も入力しない場合、１秒だけ鳴る。->
+        <div>
+            手動:<input type="number" class="manualTime" id="manualTime">秒（0.02～3秒）
+        </div>
         <br>
         <input type="button" class="autoPlaybutton" id="playbutton" value="自動演奏">
     </div>
     <script> 
-    
+        //音源用意
         const sounds = [
                 {note: "ド", file: "sound/maou_se_inst_piano2_1do.mp3"},
                 {note: "レ", file: "sound/maou_se_inst_piano2_2re.mp3"},
@@ -130,11 +133,24 @@
         }
         // 自動演奏が動作しているかどうかを表すフラグ
         let isAutoPlaying = false;
+        //手動演奏時間調節用
+        let manualTime;
         //手動操作
         for (let i = 0; i <= 6; i++) {
                 document.getElementById(i.toString()).addEventListener('click', function() {
                     if (isAutoPlaying!=true) {
-                        playSound(i,1000);
+                        manualTime= document.getElementById('manualTime').value;
+                        //元のピアノ音源が3秒の為、0.02～3秒の範囲に収まっていないと警告が出るようにした
+                        if(manualTime<=3 &&manualTime>=0.02){
+                            playSound(i,manualTime*1000);
+                        }
+                        else if(manualTime==""){
+                            playSound(i,1000);
+                        }
+                        else{
+                            alert('手動操作の秒数指定は0~3秒の間でお願いします。')
+                        }
+                        
                     }
                 });
                 
@@ -200,7 +216,7 @@
         }
         //きらきら星
         async function twinkle(){
-            kyokumei.textContent="自動演奏中です：きらきら";
+            kyokumei.textContent="自動演奏中です：きらきら星";
             
             async function twinkle1(){
                 var twinkleNote1 =[{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},
