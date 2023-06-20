@@ -148,7 +148,7 @@
                             playSound(i,1000);
                         }
                         else{
-                            alert('手動操作の秒数指定は0~3秒の間でお願いします。')
+                            alert('手動操作の秒数指定は0.02~3秒の間でお願いします。')
                         }
                         
                     }
@@ -167,7 +167,7 @@
             document.getElementById( "playbutton" ).value = "演奏中止"
             if(autoPlay_stop.disable!=true){
                 autoPlaySwitch =document.getElementById("playbutton").addEventListener('click',autoPlay_stop);
-            
+                autoPlay.disable=true;
                 }
             let select= Math.floor(Math.random()*2);
             switch(select){
@@ -191,50 +191,33 @@
         
         //自動演奏制御用
         let cumulativeDelay =0;
-        let cumulativeScoreDelay =0;
+        
         //自動演奏用音鳴らす関数
         async function autoScore(score){
-            cumulativeScoreDelay =0;
-            for await(x of score){
-                
-                let note=x.note;
-                let playLength=x.playLength;
-                
-                setTimeout(() => playSound(note,playLength), cumulativeDelay);
-                cumulativeDelay += playLength;
-                //setTimeout(() => playSound(x.note,x.playLength), cumulativeDelay);
-                //cumulativeDelay += x.playLength;
-                
-                
-        
+            cumulativeDelay =0;
+        for (let x of score){
+            let note=x.note;
+            let playLength=x.playLength;
+            setTimeout(() => playSound(note,playLength), cumulativeDelay);
+            cumulativeDelay += playLength;
             }
-            //ここがないと音の処理が重なってしまう
-            cumulativeScoreDelay = cumulativeDelay;
-            return cumulativeScoreDelay;
-            //初期化
-            cumulativeDelay = 0 ;
+        return new Promise((resolve) => {
+            setTimeout(resolve, cumulativeDelay);
+            });
+            
         }
         //きらきら星
         async function twinkle(){
             kyokumei.textContent="自動演奏中です：きらきら星";
             
-            async function twinkle1(){
-                var twinkleNote1 =[{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},
-                {note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:0, playLength:2000}];
-                await autoScore(twinkleNote1);
-            }
-            async function twinkle2(){
-                var twinkleNote2 =[{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:2000}];
-                
-                await autoScore(twinkleNote2);
-            }
-            await twinkle1();
-            
-            await twinkle2();
-            
-            await twinkle2();
-            
-            await twinkle1();
+            const twinkleNote =[{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},
+                {note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:0, playLength:2000},
+                {note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:2000},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:2000},
+
+                {note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},
+                {note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:0, playLength:2000}]
+                await autoScore(twinkleNote);
+                await autoPlay_stop();
             
             // kyokumei.textContent="　";
             
@@ -244,32 +227,12 @@
 
             kyokumei.textContent="自動演奏中です：チューリップの歌";
             
-            async function tulip1(){
-                var tulipNote1 =[{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000}];
-                await autoScore(tulipNote1);
-            }
+            const tulipNote =[{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:4,playLength:500},{note:2,playLength:500},{note:1,playLength:500},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:500},{note:1,playLength:1000},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:4,playLength:500},{note:2,playLength:500},{note:1,playLength:500},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:500},{note:0,playLength:1000},{note:4,playLength:250},{note:7,playLength:250},{note:4,playLength:250},{note:7,playLength:250},{note:2,playLength:250},{note:7,playLength:250},{note:4,playLength:250},{note:7,playLength:250},{note:5,playLength:250},{note:7,playLength:250},{note:5,playLength:250},{note:7,playLength:250},{note:4,playLength:1000},{note:2,playLength:250},{note:7,playLength:250},{note:2,playLength:250},{note:7,playLength:250},{note:1,playLength:250},{note:7,playLength:250},{note:1,playLength:250},{note:7,playLength:250},{note:0,playLength:4000}];
+            
 
-            async function tulip2(){
-                var tulipNote2 =[{note:4,playLength:500},{note:2,playLength:500},{note:1,playLength:500},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:500},{note:1,playLength:1000}];
-                await autoScore(tulipNote2);
-            }
-
-            async function tulip3(){
-                var tulipNote3 =[{note:4,playLength:500},{note:2,playLength:500},{note:1,playLength:500},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:500},{note:0,playLength:1000}];
-                await autoScore(tulipNote3);
-            }
-
-            async function tulip4(){
-                var tulipNote4 =[{note:4,playLength:250},{note:7,playLength:250},{note:4,playLength:250},{note:7,playLength:250},{note:2,playLength:250},{note:7,playLength:250},{note:4,playLength:250},{note:7,playLength:250},{note:5,playLength:250},{note:7,playLength:250},{note:5,playLength:250},{note:7,playLength:250},{note:4,playLength:1000},{note:2,playLength:250},{note:7,playLength:250},{note:2,playLength:250},{note:7,playLength:250},{note:1,playLength:250},{note:7,playLength:250},{note:1,playLength:250},{note:7,playLength:250},{note:0,playLength:4000}];
-                await autoScore(tulipNote4);
-            }
-            await tulip1();
-            await tulip2();
-            await tulip1();
-            await tulip3();
-            await tulip4();
-
+            await autoScore(tulipNote);
             await autoPlay_stop();
+            
             
 
         }
@@ -278,12 +241,15 @@
         //自動演奏を止める関数
         async function autoPlay_stop(){
             
+            
             isAutoPlaying =false;
             document.getElementById( "playbutton" ).value ="自動演奏";
             reset();
             kyokumei.textContent="　";
             autoPlaySwitch =document.getElementById("playbutton").addEventListener('click',autoPlay);
             autoPlay_stop.disable =true;
+            autoPlay.disable=false;
+            
         }
         
         
