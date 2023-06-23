@@ -10,7 +10,7 @@
     
         .kyokumei{
             width:500px;
-            background-color: greenyellow;
+            background-color: green;
             color: white;
             font-weight: bold;
         }
@@ -86,23 +86,24 @@
                 {note: "　",file:"sound/muon.mp3"}
             ];
         
-
-
-
-
-
         //音声制御用
         let audioTimer= null;
+        //音階表示制御用
         let resetTimer= null;
 
         let audio = new Audio();
         //表示を消す
-        function reset(){
-            
+        function reset(){            
             onkai.textContent ="　";
         } 
 
-        
+        //音を止める
+        function audioStop(){
+            audio.pause();
+            audio.currentTime = 0;
+            audioTimer =null;
+            resetTimer =null;
+        }
         
         
         
@@ -114,8 +115,7 @@
             clearTimeout(audioTimer);
             clearTimeout(resetTimer);
             }
-            
-            
+                        
             const sound = sounds[index];
             audio.pause();
             audio.currentTime = 0;
@@ -150,8 +150,8 @@
                 
             }
 
-        var autoPlaySwitch =document.getElementById("playbutton").addEventListener('click',autoPlay);
         
+        document.getElementById("playbutton").addEventListener('click',autoPlay);
         
         //自動演奏
         async function autoPlay(){
@@ -159,40 +159,40 @@
             isAutoPlaying =true;
             
             document.getElementById( "playbutton" ).value = "演奏中止";
-            
-            autoPlaySwitch =document.getElementById("playbutton").addEventListener('click',autoPlay_stop);
+            //自動演奏ボタンからautoPlayイベントを削除して、autoPlay_stopイベントを追加する
+            document.getElementById("playbutton").addEventListener('click',autoPlay_stop);
+            document.getElementById("playbutton").removeEventListener('click',autoPlay);
                 
-                
+            //曲の選択用ランダム関数    
             let select= Math.floor(Math.random()*2);
             switch(select){
                 case 0:
                     //きらきら星
-                    
                     twinkle();
-                    
                     break;
                 case 1:
                     //チューリップ
-                    
                     tulip();
-                    
                     break;
             }
                 
-            // await autoPlay_stop();
+            
             
         }
         
         //自動演奏制御用
         let cumulativeDelay =0;
-        
+        //タイマーID保存用配列
+        let timeouts =[];
         //自動演奏用音鳴らす関数
         async function autoScore(score){
             cumulativeDelay =0;
         for (let x of score){
             let note=x.note;
             let playLength=x.playLength;
-            setTimeout(() => playSound(note,playLength), cumulativeDelay);
+            let timer= setTimeout(() => playSound(note,playLength), cumulativeDelay);
+            
+            timeouts.push(timer);//タイマーID保存
             cumulativeDelay += playLength;
             }
         return new Promise((resolve) => {
@@ -204,53 +204,37 @@
         async function twinkle(){
             kyokumei.textContent="自動演奏中です：きらきら星";
             
-            const twinkleNote =[{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},
-                {note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:0, playLength:2000},
-                {note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:2000},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:2000},
+            const twinkleNote =[{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:0, playLength:2000},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:2000},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:2000},{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:0, playLength:2000}]
 
-                {note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},
-                {note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:0, playLength:2000}]
-                await autoScore(twinkleNote);
-                await autoPlay_stop();
-            
-            // kyokumei.textContent="　";
-            
-        }
+            await autoScore(twinkleNote);
+            await autoPlay_stop();
+            }
         //チューリップ
         async function tulip(){
-
             kyokumei.textContent="自動演奏中です：チューリップの歌";
             
             const tulipNote =[{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:4,playLength:500},{note:2,playLength:500},{note:1,playLength:500},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:500},{note:1,playLength:1000},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:4,playLength:500},{note:2,playLength:500},{note:1,playLength:500},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:500},{note:0,playLength:1000},{note:4,playLength:250},{note:7,playLength:250},{note:4,playLength:250},{note:7,playLength:250},{note:2,playLength:250},{note:7,playLength:250},{note:4,playLength:250},{note:7,playLength:250},{note:5,playLength:250},{note:7,playLength:250},{note:5,playLength:250},{note:7,playLength:250},{note:4,playLength:1000},{note:2,playLength:250},{note:7,playLength:250},{note:2,playLength:250},{note:7,playLength:250},{note:1,playLength:250},{note:7,playLength:250},{note:1,playLength:250},{note:7,playLength:250},{note:0,playLength:4000}];
             
-
             await autoScore(tulipNote);
             await autoPlay_stop();
-            
-            
-
         }
         // kyokumei.textContent="テスト";
 
         //自動演奏を止める関数
-        async function autoPlay_stop(){
-            
-            
+        async function autoPlay_stop(){          
             isAutoPlaying =false;
             document.getElementById( "playbutton" ).value ="自動演奏";
             reset();
             kyokumei.textContent="　";
-            autoPlaySwitch =document.getElementById("playbutton").addEventListener('click',autoPlay);
-            
-            
-            
-        }
-        
-        
-        
-            
-        
-        
+            // 保存した全てのタイマーを停止
+            for (let timer of timeouts) {
+                clearTimeout(timer);
+            }
+            timeouts = [];
+            //イベント追加および削除
+            document.getElementById("playbutton").removeEventListener('click',autoPlay_stop);
+            document.getElementById("playbutton").addEventListener('click',autoPlay);           
+        }  
     </script> 
 </body>
 
