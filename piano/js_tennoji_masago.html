@@ -160,8 +160,9 @@
             
             document.getElementById( "playbutton" ).value = "演奏中止";
             //自動演奏ボタンからautoPlayイベントを削除して、autoPlay_stopイベントを追加する
-            document.getElementById("playbutton").addEventListener('click',autoPlay_stop);
+            
             document.getElementById("playbutton").removeEventListener('click',autoPlay);
+            document.getElementById("playbutton").addEventListener('click',autoPlay_stop);
                 
             //曲の選択用ランダム関数    
             let select= Math.floor(Math.random()*2);
@@ -169,10 +170,12 @@
                 case 0:
                     //きらきら星
                     twinkle();
+                    
                     break;
                 case 1:
                     //チューリップ
                     tulip();
+                    
                     break;
             }
                 
