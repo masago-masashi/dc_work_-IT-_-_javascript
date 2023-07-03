@@ -190,18 +190,24 @@
         //自動演奏用音鳴らす関数
         async function autoScore(score){
             cumulativeDelay =0;
+            let i=0;
         for (let x of score){
             let note=x.note;
             let playLength=x.playLength;
             let timer= setTimeout(() => playSound(note,playLength), cumulativeDelay);
-            
+            i++;
+            console.log(`[autoScore] Timer set with ID: ${timer} : ${i}`);
             timeouts.push(timer);//タイマーID保存
             cumulativeDelay += playLength;
             }
-        return new Promise((resolve) => {
-            setTimeout(resolve, cumulativeDelay);
-            });
-            
+            console.log(`[autoScore-now] ${cumulativeDelay}`);
+            let finalTimer = setTimeout(() => {
+                console.log(`[autoScore-promise] Timer set with ID: ${finalTimer}`);
+                console.log(`[autoScore-promise] ${cumulativeDelay}`);
+                resolve();
+            }, cumulativeDelay);
+            timeouts.push(finalTimer); // タイマーID保存
+            return new Promise((resolve) => finalTimer);
         }
         //きらきら星
         async function twinkle(){
@@ -210,6 +216,7 @@
             const twinkleNote =[{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:0, playLength:2000},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:2000},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:2000},{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:0, playLength:2000}]
 
             await autoScore(twinkleNote);
+            
             await autoPlay_stop();
             }
         //チューリップ
