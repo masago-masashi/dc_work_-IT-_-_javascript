@@ -66,13 +66,14 @@
             <div class="piano-key" id="5">ラ</div>
             <div class="piano-key" id="6">シ</div>
         </div>
-        <!- 手動演奏の時間を入れる部分。 何も入力しない場合、１秒だけ鳴る。->
+        <!- 手動演奏の時間を入れる部分。 初期状態は1秒。->
         <div>
-            手動:<input type="number" class="manualTime" id="manualTime">秒（0.02～3秒）
+            手動:<input type="number" class="manualTime" id="manualTime" onkeydown="return event.keyCode !== 69" value="1" min="0.02" max="3" step="0.01">秒（0.02～3秒）
         </div>
         <br>
         <input type="button" class="autoPlaybutton" id="playbutton" value="自動演奏">
     </div>
+
     <script> 
         //音源用意
         const sounds = [
@@ -112,8 +113,8 @@
         //音を鳴らす　index=7で休符
         function playSound(index,time) {
             if(audioTimer!=null&&resetTimer!=null){
-            clearTimeout(audioTimer);
-            clearTimeout(resetTimer);
+                clearTimeout(audioTimer);
+                clearTimeout(resetTimer);
             }
                         
             const sound = sounds[index];
@@ -125,6 +126,7 @@
             audioTimer= setTimeout(audioStop,time);
             resetTimer= setTimeout(reset,1000);
         }
+
         // 自動演奏が動作しているかどうかを表すフラグ
         let isAutoPlaying = false;
         //手動演奏時間調節用
@@ -135,11 +137,8 @@
                     if (isAutoPlaying!=true) {
                         manualTime= document.getElementById('manualTime').value;
                         //元のピアノ音源が3秒の為、0.02～3秒の範囲に収まっていないと警告が出るようにした
-                        if(manualTime<=3 &&manualTime>=0.02){
+                        if(manualTime>=0.02 &&manualTime<=3){
                             playSound(i,manualTime*1000);
-                        }
-                        else if(manualTime==""){
-                            playSound(i,1000);
                         }
                         else{
                             alert('手動操作の秒数指定は0.02~3秒の間でお願いします。')
@@ -191,24 +190,22 @@
         async function autoScore(score){
             cumulativeDelay =0;
             let i=0;
-        for (let x of score){
-            let note=x.note;
-            let playLength=x.playLength;
-            let timer= setTimeout(() => playSound(note,playLength), cumulativeDelay);
-            i++;
-            console.log(`[autoScore] Timer set with ID: ${timer} : ${i}`);
-            timeouts.push(timer);//タイマーID保存
-            cumulativeDelay += playLength;
+            for (let x of score){
+                let note=x.note;
+                let playLength=x.playLength;
+                let timer= setTimeout(() => playSound(note,playLength), cumulativeDelay);
+                timeouts.push(timer);//タイマーID保存
+                cumulativeDelay += playLength;
             }
-            console.log(`[autoScore-now] ${cumulativeDelay}`);
-            let finalTimer = setTimeout(() => {
-                console.log(`[autoScore-promise] Timer set with ID: ${finalTimer}`);
-                console.log(`[autoScore-promise] ${cumulativeDelay}`);
-                resolve();
-            }, cumulativeDelay);
-            timeouts.push(finalTimer); // タイマーID保存
-            return new Promise((resolve) => finalTimer);
-        }
+            return new Promise((resolve) => {
+                let finalTimer = setTimeout(() => {
+                    resolve();
+                }, cumulativeDelay);
+                timeouts.push(finalTimer); // タイマーID保存
+            });
+        }   
+            
+        
         //きらきら星
         async function twinkle(){
             kyokumei.textContent="自動演奏中です：きらきら星";
@@ -218,7 +215,7 @@
             await autoScore(twinkleNote);
             
             await autoPlay_stop();
-            }
+        }
         //チューリップ
         async function tulip(){
             kyokumei.textContent="自動演奏中です：チューリップの歌";
