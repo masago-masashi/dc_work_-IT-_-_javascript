@@ -53,7 +53,7 @@
             <p id="kyokumei">　</p>
         </div>
         <div class="hyoujiarea">
-            <p id="onkai">　</p>
+            <p id="scale">　</p>
         </div>
         
         <div class="piano-keys">
@@ -95,7 +95,7 @@
         let audio = new Audio();
         //表示を消す
         function reset(){            
-            onkai.textContent ="　";
+            scale.textContent ="　";
         } 
 
         //音を止める
@@ -121,7 +121,7 @@
             audio.pause();
             audio.currentTime = 0;
             audio = new Audio(sound.file);
-            document.getElementById('onkai').textContent = sound.note;
+            document.getElementById('scale').textContent = sound.note;
             audio.play();
             audioTimer= setTimeout(audioStop,time);
             resetTimer= setTimeout(reset,1000);
