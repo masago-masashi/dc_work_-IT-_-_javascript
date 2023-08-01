@@ -152,6 +152,8 @@
         
         document.getElementById("playbutton").addEventListener('click',autoPlay);
         
+        //曲の題名
+        let songsTitle ="";
         //自動演奏
         async function autoPlay(){
             var score;
@@ -162,6 +164,7 @@
             
             document.getElementById("playbutton").removeEventListener('click',autoPlay);
             document.getElementById("playbutton").addEventListener('click',autoPlay_stop);
+            
             //自動演奏の曲データを入れる変数
             let songs =  {
                 "きらきら星": [
@@ -173,16 +176,18 @@
                 };
             //曲の選択用ランダム関数    
             let select= Math.floor(Math.random()*2);
+            
             switch(select){
                 case 0:
                     //きらきら星
-                    
+                    songsTitle ="きらきら星";
                     await autoScore(songs['きらきら星']);
                     await autoPlay_stop();
                     break;
                 case 1:
                     //チューリップ
-                    await autoScore(songs['チューリップ']);
+                    songsTitle="チューリップの歌";
+                    await autoScore(songs['チューリップの歌']);
                     await autoPlay_stop();
                     break;
             }
@@ -194,7 +199,7 @@
         let timeouts =[];
         //自動演奏用音鳴らす関数
         async function autoScore(score){
-            kyokumei.textContent=`自動演奏中です：${Object.keys(songs[select])}`;
+            kyokumei.textContent=`自動演奏中です：${songsTitle}`;
             cumulativeDelay =0;
             let i=0;
             for (let x of score){
