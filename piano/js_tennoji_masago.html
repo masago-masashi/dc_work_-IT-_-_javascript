@@ -127,6 +127,9 @@
             resetTimer= setTimeout(reset,1000);
         }
 
+        
+
+
         // 自動演奏が動作しているかどうかを表すフラグ
         let isAutoPlaying = false;
         //手動演奏時間調節用
@@ -151,7 +154,15 @@
 
         
         document.getElementById("playbutton").addEventListener('click',autoPlay);
-        
+        //自動演奏の曲データを入れる変数
+        let songs =  {
+                "きらきら星": [
+                    {note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:0, playLength:2000},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:2000},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:2000},{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:0, playLength:2000}]
+                ,
+                "チューリップの歌": [
+                    {note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:4,playLength:500},{note:2,playLength:500},{note:1,playLength:500},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:500},{note:1,playLength:1000},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:4,playLength:500},{note:2,playLength:500},{note:1,playLength:500},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:500},{note:0,playLength:1000},{note:4,playLength:250},{note:7,playLength:250},{note:4,playLength:250},{note:7,playLength:250},{note:2,playLength:250},{note:7,playLength:250},{note:4,playLength:250},{note:7,playLength:250},{note:5,playLength:250},{note:7,playLength:250},{note:5,playLength:250},{note:7,playLength:250},{note:4,playLength:1000},{note:2,playLength:250},{note:7,playLength:250},{note:2,playLength:250},{note:7,playLength:250},{note:1,playLength:250},{note:7,playLength:250},{note:1,playLength:250},{note:7,playLength:250},{note:0,playLength:4000}]
+                
+                };
         //曲の題名
         let songsTitle ="";
         //自動演奏
@@ -165,15 +176,7 @@
             document.getElementById("playbutton").removeEventListener('click',autoPlay);
             document.getElementById("playbutton").addEventListener('click',autoPlay_stop);
             
-            //自動演奏の曲データを入れる変数
-            let songs =  {
-                "きらきら星": [
-                    {note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:0, playLength:2000},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:2000},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:2000},{note:0, playLength:500},{note:7, playLength:500},{note:0, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:4, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:5, playLength:500},{note:7, playLength:500},{note:4, playLength:2000},{note:3, playLength:500},{note:7, playLength:500},{note:3, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:2, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:1, playLength:500},{note:7, playLength:500},{note:0, playLength:2000}]
-                ,
-                "チューリップの歌": [
-                    {note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:4,playLength:500},{note:2,playLength:500},{note:1,playLength:500},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:500},{note:1,playLength:1000},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:1000},{note:4,playLength:500},{note:2,playLength:500},{note:1,playLength:500},{note:0,playLength:500},{note:1,playLength:500},{note:2,playLength:500},{note:0,playLength:1000},{note:4,playLength:250},{note:7,playLength:250},{note:4,playLength:250},{note:7,playLength:250},{note:2,playLength:250},{note:7,playLength:250},{note:4,playLength:250},{note:7,playLength:250},{note:5,playLength:250},{note:7,playLength:250},{note:5,playLength:250},{note:7,playLength:250},{note:4,playLength:1000},{note:2,playLength:250},{note:7,playLength:250},{note:2,playLength:250},{note:7,playLength:250},{note:1,playLength:250},{note:7,playLength:250},{note:1,playLength:250},{note:7,playLength:250},{note:0,playLength:4000}]
-                
-                };
+            
             //曲の選択用ランダム関数    
             let select= Math.floor(Math.random()*2);
             
